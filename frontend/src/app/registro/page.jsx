@@ -8,11 +8,18 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { AlertCircle, Loader2, Eye, EyeOff, CheckCircle, Check, X } from 'lucide-react';
 
+const tiposUsuario = [
+  { value: 'cliente', label: 'Cliente', description: 'Abrir chamados de suporte' },
+  { value: 'tecnico', label: 'Técnico', description: 'Atender e resolver chamados' },
+  { value: 'admin', label: 'Administrador', description: 'Gerenciar todo o sistema' },
+];
+
 export default function RegistroPage() {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [confirmaSenha, setConfirmaSenha] = useState('');
+  const [nivelAcesso, setNivelAcesso] = useState('cliente');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -61,7 +68,7 @@ export default function RegistroPage() {
       return;
     }
 
-    const result = await registro(nome, email, senha, 'cliente');
+    const result = await registro(nome, email, senha, nivelAcesso);
 
     if (result.success) {
       setSuccess(true);
@@ -122,6 +129,39 @@ export default function RegistroPage() {
                     <span className="text-sm font-medium">{error}</span>
                   </div>
                 )}
+
+                {/* Tipo de Usuário */}
+                <div className="space-y-3">
+                  <label className="text-sm font-medium text-slate-200">
+                    Tipo de Usuário
+                  </label>
+                  <div className="grid grid-cols-1 gap-2">
+                    {tiposUsuario.map((tipo) => (
+                      <label
+                        key={tipo.value}
+                        className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all duration-200 ${
+                          nivelAcesso === tipo.value
+                            ? 'bg-indigo-500/20 border-indigo-500/50 text-indigo-300'
+                            : 'bg-slate-700/30 border-slate-600/50 text-slate-400 hover:border-slate-500'
+                        }`}
+                      >
+                        <input
+                          type="radio"
+                          name="nivelAcesso"
+                          value={tipo.value}
+                          checked={nivelAcesso === tipo.value}
+                          onChange={(e) => setNivelAcesso(e.target.value)}
+                          disabled={loading}
+                          className="w-4 h-4 cursor-pointer"
+                        />
+                        <div>
+                          <p className="font-semibold text-sm">{tipo.label}</p>
+                          <p className="text-xs opacity-75">{tipo.description}</p>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                </div>
 
                 {/* Nome */}
                 <div className="space-y-2">
