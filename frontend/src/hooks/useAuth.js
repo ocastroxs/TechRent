@@ -49,11 +49,33 @@ export function useAuth() {
     setError(null);
     try {
       const response = await api.post('/auth/login', { email, senha });
-      const { token, usuario: usuarioData } = response.data;
+      const { token } = response.data;
 
-      // Validar se o token e usuário foram retornados
-      if (!token || !usuarioData) {
-        throw new Error('Resposta inválida do servidor');
+      // Validar se o token foi retornado
+      if (!token) {
+        throw new Error('Token não foi retornado pelo servidor');
+      }
+
+      // Decodificar o token para extrair os dados do usuário (sem verificar assinatura)
+      // Formato do JWT: header.payload.signature
+      const parts = token.split('.');
+      if (parts.length !== 3) {
+        throw new Error('Token inválido');
+      }
+
+      // Decodificar o payload (segunda parte do token)
+      const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString('utf-8'));
+      
+      const usuarioData = {
+        id: payload.id,
+        nome: payload.nome,
+        email: payload.email,
+        nivel_acesso: payload.nivel_acesso,
+      };
+
+      // Validar se o usuário tem os dados necessários
+      if (!usuarioData.id || !usuarioData.email) {
+        throw new Error('Dados do usuário inválidos');
       }
 
       // Armazenar token e usuário
@@ -72,7 +94,7 @@ export function useAuth() {
 
       return { success: true };
     } catch (err) {
-      const errorMessage = err.response?.data?.mensagem || 'Erro ao fazer login';
+      const errorMessage = err.response?.data?.mensagem || err.message || 'Erro ao fazer login';
       setError(errorMessage);
       return { success: false, error: errorMessage };
     } finally {
