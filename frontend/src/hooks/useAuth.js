@@ -13,11 +13,33 @@ export function useAuth() {
   // Restaurar usuário do localStorage ao montar
   useEffect(() => {
     const storedUsuario = localStorage.getItem('usuario');
-    if (storedUsuario) {
+    const storedToken = localStorage.getItem('token');
+
+    if (storedUsuario && storedToken) {
       try {
-        setUsuario(JSON.parse(storedUsuario));
+        // Validar se é um JSON válido e não é a string "undefined"
+        if (storedUsuario === 'undefined' || storedUsuario === 'null') {
+          // Limpar localStorage se tiver valores inválidos
+          localStorage.removeItem('usuario');
+          localStorage.removeItem('token');
+          return;
+        }
+
+        const usuarioData = JSON.parse(storedUsuario);
+        
+        // Validar se o objeto tem as propriedades esperadas
+        if (usuarioData && usuarioData.id && usuarioData.email) {
+          setUsuario(usuarioData);
+        } else {
+          // Limpar se o objeto não tiver as propriedades necessárias
+          localStorage.removeItem('usuario');
+          localStorage.removeItem('token');
+        }
       } catch (e) {
         console.error('Erro ao restaurar usuário:', e);
+        // Limpar localStorage se houver erro de parsing
+        localStorage.removeItem('usuario');
+        localStorage.removeItem('token');
       }
     }
   }, []);
@@ -28,6 +50,11 @@ export function useAuth() {
     try {
       const response = await api.post('/auth/login', { email, senha });
       const { token, usuario: usuarioData } = response.data;
+
+      // Validar se o token e usuário foram retornados
+      if (!token || !usuarioData) {
+        throw new Error('Resposta inválida do servidor');
+      }
 
       // Armazenar token e usuário
       localStorage.setItem('token', token);
