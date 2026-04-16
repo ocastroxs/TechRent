@@ -124,7 +124,7 @@ export default function RegistroPage() {
                 )}
 
                 {/* Nome */}
-                <div className="space-y-2">
+                <div className="flex flex-col space-y-2">
                   <label htmlFor="nome" className="text-sm font-medium text-slate-200">
                     Nome Completo
                   </label>
@@ -144,7 +144,7 @@ export default function RegistroPage() {
                 </div>
 
                 {/* Email */}
-                <div className="space-y-2">
+                <div className="flex flex-col space-y-2">
                   <label htmlFor="email" className="text-sm font-medium text-slate-200">
                     Email
                   </label>
@@ -164,7 +164,7 @@ export default function RegistroPage() {
                 </div>
 
                 {/* Senha */}
-                <div className="space-y-2">
+                <div className="flex flex-col space-y-2">
                   <label htmlFor="senha" className="text-sm font-medium text-slate-200">
                     Senha
                   </label>
@@ -179,18 +179,6 @@ export default function RegistroPage() {
                       disabled={loading}
                       className="w-full pr-10"
                     />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-300 transition-colors"
-                      disabled={loading}
-                    >
-                      {showPassword ? (
-                        <Eye className="w-5 h-5" />
-                      ) : (
-                        <EyeOff className="w-5 h-5" />
-                      )}
-                    </button>
                   </div>
                   <div className="flex items-center gap-2 mt-2">
                     <div className={`flex items-center gap-1 text-xs ${validacoes.senhaMinima ? 'text-green-400' : 'text-slate-500'}`}>
@@ -205,7 +193,7 @@ export default function RegistroPage() {
                 </div>
 
                 {/* Confirmar Senha */}
-                <div className="space-y-2">
+                <div className="flex flex-col space-y-2">
                   <label htmlFor="confirmaSenha" className="text-sm font-medium text-slate-200">
                     Confirmar Senha
                   </label>
@@ -220,18 +208,6 @@ export default function RegistroPage() {
                       disabled={loading}
                       className="w-full pr-10"
                     />
-                    <button
-                      type="button"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-300 transition-colors"
-                      disabled={loading}
-                    >
-                      {showConfirmPassword ? (
-                        <Eye className="w-5 h-5" />
-                      ) : (
-                        <EyeOff className="w-5 h-5" />
-                      )}
-                    </button>
                   </div>
                   {confirmaSenha && (
                     <div className={`flex items-center gap-2 text-xs ${validacoes.senhasCoincidentes ? 'text-green-400' : 'text-red-400'}`}>

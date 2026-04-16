@@ -49,7 +49,7 @@ export default function LoginPage() {
             )}
 
             {/* Email */}
-            <div className="space-y-2">
+            <div className="flex flex-col space-y-2">
               <label htmlFor="email" className="text-sm font-medium text-slate-200">
                 Email
               </label>
@@ -66,7 +66,7 @@ export default function LoginPage() {
             </div>
 
             {/* Senha */}
-            <div className="space-y-2">
+            <div className="flex flex-col space-y-2">
               <label htmlFor="senha" className="text-sm font-medium text-slate-200">
                 Senha
               </label>
@@ -79,20 +79,8 @@ export default function LoginPage() {
                   onChange={(e) => setSenha(e.target.value)}
                   required
                   disabled={loading}
-                  className="w-full bg-slate-700/50 border-slate-600 text-white placeholder:text-slate-500 focus-visible:ring-indigo-500 focus-visible:border-indigo-500 pr-10"
+                  className="w-full bg-slate-700/50 border-slate-600 text-white placeholder:text-slate-500 focus-visible:ring-indigo-500 focus-visible:border-indigo-500"
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-300 transition-colors"
-                  disabled={loading}
-                >
-                  {showPassword ? (
-                    <Eye className="w-5 h-5" />
-                  ) : (
-                    <EyeOff className="w-5 h-5" />
-                  )}
-                </button>
               </div>
             </div>
 
@@ -131,7 +119,7 @@ export default function LoginPage() {
 
         {/* Footer */}
         <p className="text-center text-xs text-slate-500 mt-8">
-          © 2024 TechRent. Todos os direitos reservados.
+          © 2026 TechRent. Todos os direitos reservados.
         </p>
       </div>
     </div>
