@@ -23,21 +23,22 @@ export default function Home() {
           router.push('/cliente');
         }
       } catch (e) {
-        router.push('/login');
+        router.push('/landing');
       }
     } else {
-      router.push('/login');
+      // Se não estiver logado, vai para a landing page
+      router.push('/landing');
     }
   }, [router]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen flex items-center justify-center bg-[#0f172a]">
       <div className="text-center">
-        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-600 mb-4 animate-pulse">
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 mb-4 animate-pulse shadow-lg shadow-indigo-500/30">
           <span className="text-2xl font-bold text-white">TR</span>
         </div>
-        <h1 className="text-2xl font-bold text-gray-900">TechRent</h1>
-        <p className="text-gray-600 mt-2">Carregando...</p>
+        <h1 className="text-2xl font-bold text-white">TechRent</h1>
+        <p className="text-slate-400 mt-2 font-medium">Carregando...</p>
       </div>
     </div>
   );
